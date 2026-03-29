@@ -3,203 +3,169 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trem de Minas - Queijos e Doces</title>
-
+  <title>Trem de Minas - Finalizar Pedido</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    
     body {
-      font-family: Arial, sans-serif;
-      /* Fundo de listras amarelas da sua inspiração */
-      background-color: #ffffff; 
-      background-image: repeating-linear-gradient(90deg, #f1c40f20, #f1c40f20 15px, #ffffff 15px, #ffffff 30px); 
+      background-image: repeating-linear-gradient(90deg, #f1c40f20, #f1c40f20 15px, #ffffff 15px, #ffffff 30px);
       color: #3b2f2f;
-      line-height: 1.6;
     }
 
     header {
-      /* Fundo Vinho Bordô da sua inspiração */
       background: #58181a;
       color: #fdf5e6;
       text-align: center;
-      padding: 70px 20px 50px;
-      border-bottom-left-radius: 30px;
-      border-bottom-right-radius: 30px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      padding: 40px 20px;
       border-bottom: 5px solid #d35400;
     }
 
-    header h1 {
-      font-size: 2.3rem;
-      margin-bottom: 15px;
+    .container { max-width: 600px; margin: auto; padding: 40px 20px; }
+
+    .formulario {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border: 2px solid #58181a;
     }
 
-    header p {
+    h2 { color: #58181a; margin-bottom: 20px; text-align: center; }
+
+    label { display: block; margin-top: 15px; font-weight: bold; color: #58181a; }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
       font-size: 1rem;
-      max-width: 700px;
-      margin: auto;
-      opacity: 0.95;
     }
 
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 45px 20px;
-    }
-
-    .titulo-secao {
+    /* Estilo para o Total */
+    .caixa-total {
+      background: #fdf5e6;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
       text-align: center;
-      font-size: 1.9rem;
-      margin-bottom: 35px;
+      border: 2px dashed #d35400;
+    }
+
+    .valor-total {
+      font-size: 1.8rem;
+      font-weight: bold;
       color: #58181a;
     }
 
-    .produtos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 25px;
-    }
-
-    .produto {
-      /* Fundo Vermelho Vinho nos quadrados como você pediu */
-      background: #58181a;
-      border-radius: 24px;
-      padding: 28px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      border: 2px solid #d35400;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .produto:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-    }
-
-    /* Cores claras para o texto aparecer no fundo vermelho */
-    .produto h3 {
-      color: #fdf5e6;
-      margin-bottom: 12px;
-      font-size: 1.3rem;
-    }
-
-    .produto p {
-      font-size: 0.97rem;
-      margin-bottom: 18px;
-      color: #fdf5e6ee;
-    }
-
-    .preco {
-      font-size: 1.4rem;
-      font-weight: bold;
-      color: #d35400;
-      background-color: #ffffffd0;
-      padding: 8px;
-      border-radius: 10px;
-      display: inline-block;
-    }
-
-    .botao-area {
-      text-align: center;
-      margin-top: 45px;
-    }
-
-    .botao {
-      display: inline-block;
-      background-color: #25d366; /* Verde WhatsApp */
+    .btn-enviar {
+      background-color: #25d366;
       color: white;
-      padding: 18px 40px;
-      border-radius: 999px;
-      text-decoration: none;
+      border: none;
+      width: 100%;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 10px;
       font-size: 1.2rem;
       font-weight: bold;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-      transition: 0.2s ease;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
-    .botao:hover {
-      background-color: #128c7e;
-      transform: scale(1.05);
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px 20px;
-      margin-top: 50px;
-      color: #58181a;
-      font-size: 0.95rem;
-      font-weight: bold;
-    }
-
-    @media (max-width: 600px) {
-      header h1 { font-size: 1.9rem; }
-      .titulo-secao { font-size: 1.6rem; }
-    }
+    .btn-enviar:hover { background-color: #128c7e; transform: scale(1.02); }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>🧀 Trem de Minas</h1>
-    <p>
-      Aqui você encontra queijos e doces artesanais feitos com amor, cuidado e aquele gostinho de casa. 
-      Nosso objetivo é levar até você produtos fresquinhos, saborosos e cheios de tradição.
-    </p>
-  </header>
+<header>
+  <h1>🧀 Trem de Minas</h1>
+  <p>Peça agora e receba em casa</p>
+</header>
 
-  <div class="container">
-    <h2 class="titulo-secao">Nossas Delícias Caseiras</h2>
+<div class="container">
+  <div class="formulario">
+    <h2>Dados do Pedido</h2>
+    
+    <form id="pedidoForm">
+      <label for="produto">O que você vai querer?</label>
+      <select id="produto" onchange="calcularTotal()" required>
+        <option value="0">Selecione um produto...</option>
+        <option value="40">Queijo Artesanal - R$ 40,00</option>
+        <option value="25">Doce de Leite (Corte) - R$ 25,00</option>
+        <option value="25">Doce de Leite com Coco - R$ 25,00</option>
+        <option value="25">Geleia de Mocotó - R$ 25,00</option>
+        <option value="25">Geleia de Amendoim - R$ 25,00</option>
+      </select>
 
-    <div class="produtos">
-      <div class="produto">
-        <h3>Queijo Artesanal</h3>
-        <p>Queijo artesanal legítimo, com sabor marcante e maturação perfeita. Feito com leite selecionado para garantir a qualidade que sua mesa merece.</p>
-        <div class="preco">R$ 40,00</div>
+      <label for="quantidade">Quantidade:</label>
+      <input type="number" id="quantidade" value="1" min="1" oninput="calcularTotal()" required>
+
+      <div class="caixa-total">
+        <p>Total do Pedido:</p>
+        <span class="valor-total" id="displayTotal">R$ 0,00</span>
       </div>
 
-      <div class="produto">
-        <h3>Doce de Leite (de corte)</h3>
-        <p>Doce de leite artesanal de corte, firme na medida certa e com sabor marcante. Feito de forma caseira, é perfeito para servir em pedaços e aproveitar aquele gostinho tradicional irresistível.</p>
-        <div class="preco">R$ 25,00</div>
-      </div>
+      <label for="nome">Seu Nome:</label>
+      <input type="text" id="nome" placeholder="Como te chamamos?" required>
 
-      <div class="produto">
-        <h3>Doce de Leite com Coco</h3>
-        <p>A combinação perfeita do nosso doce de leite artesanal com o toque especial do coco. Textura incrível e sabor equilibrado que derrete na boca.</p>
-        <div class="preco">R$ 25,00</div>
-      </div>
+      <label for="endereco">Endereço de Entrega:</label>
+      <textarea id="endereco" rows="3" placeholder="Rua, número, bairro..." required></textarea>
 
-      <div class="produto">
-        <h3>Geleia de Mocotó (de corte)</h3>
-        <p>Geleia de mocotó artesanal de corte, com textura firme e sabor tradicional. Um doce clássico, preparado com cuidado para manter aquele toque caseiro e especial de antigamente.</p>
-        <div class="preco">R$ 25,00</div>
-      </div>
+      <label for="pagamento">Forma de Pagamento:</label>
+      <select id="pagamento" required>
+        <option value="Pix">Pix</option>
+        <option value="Cartão">Cartão (Levamos a maquininha)</option>
+        <option value="Dinheiro">Dinheiro</option>
+      </select>
 
-      <div class="produto">
-        <h3>Geleia de Amendoim (de corte)</h3>
-        <p>Geleia de amendoim artesanal de corte, firme, saborosa e feita com aquele toque caseiro irresistível. Uma opção deliciosa para quem ama doces tradicionais cheios de sabor.</p>
-        <div class="preco">R$ 25,00</div>
-      </div>
-    </div>
-
-    <div class="botao-area">
-      <a class="botao" href="https://wa.me/5561999152151?text=Olá!%20Estive%20no%20site%20da%20Trem%20de%20Minas%20e%20gostaria%20de%20fazer%20um%20pedido." target="_blank">
-        📲 Fazer Pedido no WhatsApp
-      </a>
-    </div>
-
+      <button type="button" class="btn-enviar" onclick="enviarWhatsApp()">🚀 Enviar Pedido via WhatsApp</button>
+    </form>
   </div>
+</div>
 
-  <footer>
-    © 2026 • Trem de Minas • Feito com carinho
-  </footer>
+<script>
+  // Função para calcular o valor automaticamente
+  function calcularTotal() {
+    const preco = parseFloat(document.getElementById('produto').value);
+    const qtd = parseInt(document.getElementById('quantidade').value);
+    const total = preco * qtd;
+    
+    document.getElementById('displayTotal').innerText = R$ ${total.toFixed(2).replace('.', ',')};
+  }
+
+  function enviarWhatsApp() {
+    const telefone = "5561999152151"; 
+    
+    const selectProduto = document.getElementById('produto');
+    const nomeProduto = selectProduto.options[selectProduto.selectedIndex].text;
+    const valorUnitario = selectProduto.value;
+    const qtd = document.getElementById('quantidade').value;
+    const nome = document.getElementById('nome').value;
+    const endereco = document.getElementById('endereco').value;
+    const pagamento = document.getElementById('pagamento').value;
+    const totalFinal = document.getElementById('displayTotal').innerText;
+
+    if(valorUnitario == "0" || !nome || !endereco) {
+      alert("Por favor, preencha todos os campos!");
+      return;
+    }
+
+    const mensagem = *NOVO PEDIDO - TREM DE MINAS*%0A +
+                     ----------------------------------%0A +
+                     *Produto:* ${nomeProduto}%0A +
+                     *Quantidade:* ${qtd}%0A +
+                     *TOTAL:* ${totalFinal}%0A +
+                     ----------------------------------%0A +
+                     *Cliente:* ${nome}%0A +
+                     *Endereço:* ${endereco}%0A +
+                     *Pagamento:* ${pagamento}%0A +
+                     ----------------------------------%0A +
+                     _Enviado pelo site_;
+
+    window.open(https://wa.me/${telefone}?text=${mensagem}, '_blank');
+  }
+</script>
 
 </body>
 </html>
-    
