@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trem de Minas - Pedido Rápido</title>
+  <title>Trem de Minas - Sabor de Família</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     
     body {
-      /* Fundo com listras amarelas bem suaves */
-      background-image: repeating-linear-gradient(90deg, #f1c40f08, #f1c40f08 15px, #ffffff 15px, #ffffff 30px);
+      /* Fundo Amarelo Âmbar Vibrante e Sólido */
+      background-color: #ffbf00;
       color: #3b2f2f;
       padding-bottom: 120px; /* Espaço para o carrinho flutuante */
     }
@@ -24,6 +24,19 @@
 
     .container { max-width: 1000px; margin: auto; padding: 20px; }
 
+    /* Estilo para a descrição original */
+    .descricao-original {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 1.1rem;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      border: 2px solid #58181a;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
     h2 { color: #58181a; margin: 25px 0 15px; text-align: center; }
 
     /* Organização dos produtos lado a lado (Grid) */
@@ -33,11 +46,10 @@
       gap: 20px;
     }
 
-    /* Quadrado do produto - Vermelho Carmesim Transparente */
+    /* Quadrado do produto - Vermelho Carmesim Intenso e Opaco */
     .produto-card {
-      /* Cor Carmesim com 15% de opacidade (rgba: vermelho, verde, azul, opacidade) */
-      background-color: rgba(220, 20, 60, 0.15); 
-      border: 2px solid rgba(220, 20, 60, 0.3);
+      background-color: #dc143c; /* Vermelho Carmesim Puro */
+      border: 3px solid #ffbf00; /* Borda Amarela para contraste */
       border-radius: 12px;
       padding: 20px;
       display: flex;
@@ -45,20 +57,20 @@
       align-items: center;
       text-align: center;
       transition: 0.3s;
+      color: white; /* Texto branco para leitura sobre o vermelho */
     }
 
     .produto-card:hover { 
-      background-color: rgba(220, 20, 60, 0.25);
-      border-color: rgba(220, 20, 60, 0.6);
-      transform: translateY(-3px);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
 
-    .produto-info h3 { font-size: 1.1rem; color: #58181a; margin-bottom: 8px; }
+    .produto-info h3 { font-size: 1.1rem; color: white; margin-bottom: 8px; }
     
     .preco {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       font-weight: bold;
-      color: #d35400;
+      color: #ffea00; /* Preço em amarelo brilhante */
       margin-bottom: 15px;
       display: block;
     }
@@ -83,10 +95,12 @@
     .qtd-input {
       width: 65px;
       padding: 10px;
-      border: 1px solid #ccc;
+      border: 2px solid #58181a;
       border-radius: 8px;
       text-align: center;
       font-size: 1.1rem;
+      color: black;
+      background-color: white;
     }
 
     /* Seção de Dados do Cliente */
@@ -94,7 +108,7 @@
       background: white;
       padding: 30px;
       border-radius: 20px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
       border: 2px solid #58181a;
       margin-top: 40px;
     }
@@ -134,7 +148,7 @@
     }
 
     .total-texto { font-size: 1.2rem; }
-    .total-valor { font-size: 2.2rem; font-weight: bold; color: #f1c40f; }
+    .total-valor { font-size: 2.2rem; font-weight: bold; color: #ffbf00; }
 
     .btn-enviar {
       background-color: #25d366;
@@ -164,11 +178,15 @@
 
 <header>
   <h1>🧀 Trem de Minas</h1>
-  <p>Selecione os produtos e a quantidade</p>
+  <p>Peça agora e receba em casa</p>
 </header>
 
 <div class="container">
-  <h2>Nossos Produtos Artesanais</h2>
+  <div class="descricao-original">
+    <p>Nossas receitas vêm de família, trazendo o verdadeiro sabor do interior de Minas Gerais direto para sua mesa.</p>
+  </div>
+
+  <h2>Selecione seus Produtos Artesanais</h2>
   
   <div class="lista-produtos">
     <div class="produto-card">
@@ -271,16 +289,16 @@
         if (qtd < 1 || isNaN(qtd)) { qtdInput.value = 1; qtd = 1; }
         
         total += preco * qtd;
-        // Destaca o card selecionado mudando a borda
-        card.style.borderColor = 'rgba(220, 20, 60, 0.8)';
+        // Destaca o card selecionado mudando a borda para amarelo vibrante
+        card.style.borderColor = '#ffea00';
       } else {
         // Reseta a borda se desmarcar
-        card.style.borderColor = 'rgba(220, 20, 60, 0.3)';
+        card.style.borderColor = '#ffbf00';
       }
     });
     
     // Atualiza o valor na tela formatado como moeda (R$ X,XX)
-    document.getElementById('displayTotal').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    document.getElementById('displayTotal').innerText = R$ ${total.toFixed(2).replace('.', ',')};
   }
 
   // Função que ARRUMA o envio para o WhatsApp
@@ -302,7 +320,7 @@
         temItem = true;
         const nome = checkbox.getAttribute('data-nome');
         const qtd = qtdInput.value;
-        itensPedido += `✅ ${qtd}x ${nome}%0A`; // %0A é o código para pular linha
+        itensPedido += ✅ ${qtd}x ${nome}%0A; // %0A é o código para pular linha
       }
     });
 
@@ -322,22 +340,22 @@
     }
 
     // Monta a mensagem final organizando os espaços (%0A)
-    const mensagem = `*NOVO PEDIDO - TREM DE MINAS*%0A` +
-                     `----------------------------------%0A` +
-                     `*ITENS:*%0A` +
-                     `${itensPedido}` +
-                     `----------------------------------%0A` +
-                     `*👉 TOTAL: ${totalFinal}*%0A` +
-                     `----------------------------------%0A` +
-                     `*DADOS DE ENTREGA:*%0A` +
-                     `*Nome:* ${nomeCliente}%0A` +
-                     `*Endereço:* ${endereco}%0A` +
-                     `*Pagamento:* ${pagamento}%0A` +
-                     `----------------------------------%0A` +
-                     `_Enviado pelo site_`;
+    const mensagem = *NOVO PEDIDO - TREM DE MINAS*%0A +
+                     ----------------------------------%0A +
+                     *ITENS:*%0A +
+                     ${itensPedido} +
+                     ----------------------------------%0A +
+                     *👉 TOTAL: ${totalFinal}*%0A +
+                     ----------------------------------%0A +
+                     *DADOS DE ENTREGA:*%0A +
+                     *Nome:* ${nomeCliente}%0A +
+                     *Endereço:* ${endereco}%0A +
+                     *Pagamento:* ${pagamento}%0A +
+                     ----------------------------------%0A +
+                     _Enviado pelo site_;
 
     // Abre o WhatsApp direto com a mensagem pronta
-    window.open(`https://wa.me/${telefone}?text=${mensagem}`, '_blank');
+    window.open(https://wa.me/${telefone}?text=${mensagem}, '_blank');
   }
 
   // Executa o cálculo uma vez ao carregar para garantir que comece zerado
