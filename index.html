@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trem de Minas - Finalizar Pedido</title>
+  <title>Trem de Minas - Faça seu Pedido</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
     
     body {
-      background-image: repeating-linear-gradient(90deg, #f1c40f20, #f1c40f20 15px, #ffffff 15px, #ffffff 30px);
+      background-image: repeating-linear-gradient(90deg, #f1c40f10, #f1c40f10 15px, #ffffff 15px, #ffffff 30px);
       color: #3b2f2f;
+      padding-bottom: 100px; /* Espaço para o botão flutuante */
     }
 
     header {
@@ -20,21 +21,89 @@
       border-bottom: 5px solid #d35400;
     }
 
-    .container { max-width: 600px; margin: auto; padding: 40px 20px; }
+    .container { max-width: 800px; margin: auto; padding: 20px; }
 
-    .formulario {
+    h2 { color: #58181a; margin: 20px 0; text-align: center; }
+
+    /* Estilo dos Cards de Produto */
+    .lista-produtos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .produto-card {
+      background: white;
+      border: 2px solid #e0e0e0;
+      border-radius: 15px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .produto-card:hover { border-color: #58181a; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+    .produto-card img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .produto-info h3 { font-size: 1.1rem; color: #58181a; margin-bottom: 5px; }
+    
+    .preco {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #d35400;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    /* Checkbox e Quantidade */
+    .controles {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: auto;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .selecionar-produto {
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      accent-color: #58181a;
+    }
+
+    .qtd-input {
+      width: 60px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    /* Seção de Dados do Cliente */
+    .dados-cliente {
       background: white;
       padding: 30px;
       border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
       border: 2px solid #58181a;
+      margin-top: 40px;
     }
-
-    h2 { color: #58181a; margin-bottom: 20px; text-align: center; }
 
     label { display: block; margin-top: 15px; font-weight: bold; color: #58181a; }
 
-    input, select, textarea {
+    input[type="text"], select, textarea {
       width: 100%;
       padding: 12px;
       margin-top: 5px;
@@ -43,29 +112,31 @@
       font-size: 1rem;
     }
 
-    /* Estilo para o Total */
-    .caixa-total {
-      background: #fdf5e6;
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 20px;
+    /* Barra de Total Flutuante */
+    .barra-total {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #58181a;
+      color: white;
+      padding: 15px;
       text-align: center;
-      border: 2px dashed #d35400;
+      box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 1000;
     }
 
-    .valor-total {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #58181a;
-    }
+    .total-texto { font-size: 1.2rem; }
+    .total-valor { font-size: 2rem; font-weight: bold; color: #f1c40f; }
 
     .btn-enviar {
       background-color: #25d366;
       color: white;
       border: none;
-      width: 100%;
-      padding: 15px;
-      margin-top: 20px;
+      padding: 15px 30px;
       border-radius: 10px;
       font-size: 1.2rem;
       font-weight: bold;
@@ -73,91 +144,151 @@
       transition: 0.3s;
     }
 
-    .btn-enviar:hover { background-color: #128c7e; transform: scale(1.02); }
+    .btn-enviar:hover { background-color: #128c7e; transform: scale(1.05); }
+
   </style>
 </head>
 <body>
 
 <header>
   <h1>🧀 Trem de Minas</h1>
-  <p>Peça agora e receba em casa</p>
+  <p>Marque os produtos e quantidades desejadas</p>
 </header>
 
 <div class="container">
-  <div class="formulario">
-    <h2>Dados do Pedido</h2>
-    
-    <form id="pedidoForm">
-      <label for="produto">O que você vai querer?</label>
-      <select id="produto" onchange="calcularTotal()" required>
-        <option value="0">Selecione um produto...</option>
-        <option value="40">Queijo Artesanal - R$ 40,00</option>
-        <option value="25">Doce de Leite (Corte) - R$ 25,00</option>
-        <option value="25">Doce de Leite com Coco - R$ 25,00</option>
-        <option value="25">Geleia de Mocotó - R$ 25,00</option>
-        <option value="25">Geleia de Amendoim - R$ 25,00</option>
-      </select>
-
-      <label for="quantidade">Quantidade:</label>
-      <input type="number" id="quantidade" value="1" min="1" oninput="calcularTotal()" required>
-
-      <div class="caixa-total">
-        <p>Total do Pedido:</p>
-        <span class="valor-total" id="displayTotal">R$ 0,00</span>
+  <h2>Nossos Produtos Artesanais</h2>
+  
+  <div class="lista-produtos">
+    <div class="produto-card">
+      <img src="https://images.tcdn.com.br/img/img_prod/830206/queijo_minas_artesanal_serra_da_canastra_tradicional_canastra_do_garfo_aprox_1kg_113_1_dfa957b49bd139265f80b48f95c02b21.jpg" alt="Queijo Artesanal">
+      <div class="produto-info">
+        <h3>Queijo Artesanal</h3>
+        <span class="preco">R$ 40,00</span>
       </div>
+      <div class="controles">
+        <input type="checkbox" class="selecionar-produto" data-preco="40" data-nome="Queijo Artesanal" onchange="calcularTotal()">
+        <input type="number" class="qtd-input" value="1" min="1" oninput="calcularTotal()">
+      </div>
+    </div>
 
-      <label for="nome">Seu Nome:</label>
-      <input type="text" id="nome" placeholder="Como te chamamos?" required>
+    <div class="produto-card">
+      <img src="https://images.tcdn.com.br/img/img_prod/606013/doce_de_leite_em_barra_rocca_tradicional_500g_807_1_f58a74e1d70e4c6f5054170c0c2a2977.jpg" alt="Doce de Leite em Barra">
+      <div class="produto-info">
+        <h3>Doce de Leite (Corte)</h3>
+        <span class="preco">R$ 25,00</span>
+      </div>
+      <div class="controles">
+        <input type="checkbox" class="selecionar-produto" data-preco="25" data-nome="Doce de Leite Corte" onchange="calcularTotal()">
+        <input type="number" class="qtd-input" value="1" min="1" oninput="calcularTotal()">
+      </div>
+    </div>
 
-      <label for="endereco">Endereço de Entrega:</label>
-      <textarea id="endereco" rows="3" placeholder="Rua, número, bairro..." required></textarea>
+    <div class="produto-card">
+      <img src="https://images.tcdn.com.br/img/img_prod/704153/doce_de_leite_com_coco_rocca_420g_15_1_20201103091937.jpg" alt="Doce de Leite com Coco">
+      <div class="produto-info">
+        <h3>Doce de Leite com Coco</h3>
+        <span class="preco">R$ 25,00</span>
+      </div>
+      <div class="controles">
+        <input type="checkbox" class="selecionar-produto" data-preco="25" data-nome="Doce de Leite c/ Coco" onchange="calcularTotal()">
+        <input type="number" class="qtd-input" value="1" min="1" oninput="calcularTotal()">
+      </div>
+    </div>
 
-      <label for="pagamento">Forma de Pagamento:</label>
-      <select id="pagamento" required>
-        <option value="Pix">Pix</option>
-        <option value="Cartão">Cartão (Levamos a maquininha)</option>
-        <option value="Dinheiro">Dinheiro</option>
-      </select>
+    <div class="produto-card">
+      <img src="https://m.media-amazon.com/images/I/71uV6Ww3lFL._AC_UF894,1000_QL80_.jpg" alt="Geleia Artesanal">
+      <div class="produto-info">
+        <h3>Geleia de Mocotó</h3>
+        <span class="preco">R$ 25,00</span>
+      </div>
+      <div class="controles">
+        <input type="checkbox" class="selecionar-produto" data-preco="25" data-nome="Geleia de Mocotó" onchange="calcularTotal()">
+        <input type="number" class="qtd-input" value="1" min="1" oninput="calcularTotal()">
+      </div>
+    </div>
+  </div>
 
-      <button type="button" class="btn-enviar" onclick="enviarWhatsApp()">🚀 Enviar Pedido via WhatsApp</button>
-    </form>
+  <div class="dados-cliente">
+    <h2>Dados para Entrega</h2>
+    
+    <label for="nome">Seu Nome:</label>
+    <input type="text" id="nome" placeholder="Como te chamamos?" required>
+
+    <label for="endereco">Endereço Completo:</label>
+    <textarea id="endereco" rows="3" placeholder="Rua, número, bairro, referência..." required></textarea>
+
+    <label for="pagamento">Forma de Pagamento:</label>
+    <select id="pagamento" required>
+      <option value="Pix">Pix</option>
+      <option value="Cartão">Cartão (Levamos a maquininha)</option>
+      <option value="Dinheiro">Dinheiro</option>
+    </select>
   </div>
 </div>
 
+<div class="barra-total">
+  <div class="total-texto">Total: <span class="total-valor" id="displayTotal">R$ 0,00</span></div>
+  <button type="button" class="btn-enviar" onclick="enviarWhatsApp()">🚀 Enviar Pedido</button>
+</div>
+
 <script>
-  // Função para calcular o valor automaticamente
   function calcularTotal() {
-    const preco = parseFloat(document.getElementById('produto').value);
-    const qtd = parseInt(document.getElementById('quantidade').value);
-    const total = preco * qtd;
+    let total = 0;
+    const produtos = document.querySelectorAll('.produto-card');
+    
+    produtos.forEach(card => {
+      const checkbox = card.querySelector('.selecionar-produto');
+      const qtdInput = card.querySelector('.qtd-input');
+      
+      if (checkbox.checked) {
+        const preco = parseFloat(checkbox.getAttribute('data-preco'));
+        const qtd = parseInt(qtdInput.value);
+        total += preco * qtd;
+        card.style.borderColor = '#58181a'; // Destaca o card selecionado
+      } else {
+        card.style.borderColor = '#e0e0e0'; // Reseta o card
+      }
+    });
     
     document.getElementById('displayTotal').innerText = R$ ${total.toFixed(2).replace('.', ',')};
   }
 
   function enviarWhatsApp() {
     const telefone = "5561999152151"; 
+    let itensPedido = "";
+    let totalFinal = document.getElementById('displayTotal').innerText;
     
-    const selectProduto = document.getElementById('produto');
-    const nomeProduto = selectProduto.options[selectProduto.selectedIndex].text;
-    const valorUnitario = selectProduto.value;
-    const qtd = document.getElementById('quantidade').value;
-    const nome = document.getElementById('nome').value;
+    const produtos = document.querySelectorAll('.produto-card');
+    
+    produtos.forEach(card => {
+      const checkbox = card.querySelector('.selecionar-produto');
+      const qtdInput = card.querySelector('.qtd-input');
+      
+      if (checkbox.checked) {
+        const nome = checkbox.getAttribute('data-nome');
+        const qtd = qtdInput.value;
+        const preco = checkbox.getAttribute('data-preco');
+        itensPedido += ✅ ${qtd}x ${nome} (R$ ${preco},00/un)%0A;
+      }
+    });
+
+    const nomeCliente = document.getElementById('nome').value;
     const endereco = document.getElementById('endereco').value;
     const pagamento = document.getElementById('pagamento').value;
-    const totalFinal = document.getElementById('displayTotal').innerText;
 
-    if(valorUnitario == "0" || !nome || !endereco) {
-      alert("Por favor, preencha todos os campos!");
+    if(!itensPedido || !nomeCliente || !endereco) {
+      alert("Por favor, selecione pelo menos um produto e preencha seus dados!");
       return;
     }
 
     const mensagem = *NOVO PEDIDO - TREM DE MINAS*%0A +
                      ----------------------------------%0A +
-                     *Produto:* ${nomeProduto}%0A +
-                     *Quantidade:* ${qtd}%0A +
-                     *TOTAL:* ${totalFinal}%0A +
+                     *ITENS DO PEDIDO:*%0A +
+                     ${itensPedido} +
                      ----------------------------------%0A +
-                     *Cliente:* ${nome}%0A +
+                     *👉 TOTAL: ${totalFinal}*%0A +
+                     ----------------------------------%0A +
+                     *Cliente:* ${nomeCliente}%0A +
                      *Endereço:* ${endereco}%0A +
                      *Pagamento:* ${pagamento}%0A +
                      ----------------------------------%0A +
@@ -169,6 +300,7 @@
 
 </body>
 </html>
+  
 
 
  
