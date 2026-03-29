@@ -8,10 +8,9 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     
     body {
-      /* Fundo Amarelo Âmbar Vibrante e Sólido */
       background-color: #ffbf00;
       color: #3b2f2f;
-      padding-bottom: 120px; /* Espaço para o carrinho flutuante */
+      padding-bottom: 120px;
     }
 
     header {
@@ -24,7 +23,6 @@
 
     .container { max-width: 1000px; margin: auto; padding: 20px; }
 
-    /* Estilo para a descrição original */
     .descricao-original {
       background: white;
       padding: 20px;
@@ -39,17 +37,15 @@
 
     h2 { color: #58181a; margin: 25px 0 15px; text-align: center; }
 
-    /* Organização dos produtos lado a lado (Grid) */
     .lista-produtos {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
     }
 
-    /* Quadrado do produto - Vermelho Carmesim Intenso e Opaco */
     .produto-card {
-      background-color: #dc143c; /* Vermelho Carmesim Puro */
-      border: 3px solid #ffbf00; /* Borda Amarela para contraste */
+      background-color: #dc143c;
+      border: 3px solid #ffbf00;
       border-radius: 12px;
       padding: 20px;
       display: flex;
@@ -57,7 +53,7 @@
       align-items: center;
       text-align: center;
       transition: 0.3s;
-      color: white; /* Texto branco para leitura sobre o vermelho */
+      color: white;
     }
 
     .produto-card:hover { 
@@ -70,12 +66,11 @@
     .preco {
       font-size: 1.5rem;
       font-weight: bold;
-      color: #ffea00; /* Preço em amarelo brilhante */
+      color: #ffea00;
       margin-bottom: 15px;
       display: block;
     }
 
-    /* Controles de Checkbox e Quantidade */
     .controles {
       display: flex;
       align-items: center;
@@ -89,7 +84,7 @@
       width: 28px;
       height: 28px;
       cursor: pointer;
-      accent-color: #58181a; /* Cor do check */
+      accent-color: #58181a;
     }
 
     .qtd-input {
@@ -103,7 +98,6 @@
       background-color: white;
     }
 
-    /* Seção de Dados do Cliente */
     .dados-cliente {
       background: white;
       padding: 30px;
@@ -112,8 +106,6 @@
       border: 2px solid #58181a;
       margin-top: 40px;
     }
-
-    .dados-cliente h2 { margin-top: 0; }
 
     label { display: block; margin-top: 15px; font-weight: bold; color: #58181a; }
 
@@ -126,9 +118,6 @@
       font-size: 1rem;
     }
 
-    textarea { resize: none; }
-
-    /* Barra do Carrinho Flutuante */
     .barra-total {
       position: fixed;
       bottom: 0;
@@ -143,11 +132,10 @@
       justify-content: space-around;
       align-items: center;
       z-index: 1000;
-      flex-wrap: wrap; /* Para telas pequenas */
+      flex-wrap: wrap;
       gap: 10px;
     }
 
-    .total-texto { font-size: 1.2rem; }
     .total-valor { font-size: 2.2rem; font-weight: bold; color: #ffbf00; }
 
     .btn-enviar {
@@ -160,18 +148,12 @@
       font-weight: bold;
       cursor: pointer;
       transition: 0.3s;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
 
-    .btn-enviar:hover { background-color: #128c7e; transform: scale(1.05); }
-
-    /* Ajustes para Celular */
     @media (max-width: 600px) {
       .total-valor { font-size: 1.8rem; }
-      .btn-enviar { width: 100%; padding: 12px; font-size: 1.1rem; }
-      .barra-total { padding: 10px; }
+      .btn-enviar { width: 100%; }
     }
-
   </style>
 </head>
 <body>
@@ -186,7 +168,7 @@
     <p>Nossas receitas vêm de família, trazendo o verdadeiro sabor do interior de Minas Gerais direto para sua mesa.</p>
   </div>
 
-  <h2>Selecione seus Produtos Artesanais</h2>
+  <h2>Selecione seus Produtos</h2>
   
   <div class="lista-produtos">
     <div class="produto-card">
@@ -247,120 +229,65 @@
 
   <div class="dados-cliente">
     <h2>Dados para Entrega</h2>
-    
     <label for="nome">Seu Nome:</label>
-    <input type="text" id="nome" placeholder="Como te chamamos?" required>
+    <input type="text" id="nome" placeholder="Seu nome aqui" required>
 
     <label for="endereco">Endereço Completo:</label>
-    <textarea id="endereco" rows="3" placeholder="Rua, número, bairro, cidade e referência..." required></textarea>
+    <textarea id="endereco" rows="3" placeholder="Rua, número, bairro..." required></textarea>
 
     <label for="pagamento">Forma de Pagamento:</label>
-    <select id="pagamento" required>
+    <select id="pagamento">
       <option value="Pix">Pix</option>
-      <option value="Cartão">Cartão (Levamos a maquininha)</option>
+      <option value="Cartão">Cartão</option>
       <option value="Dinheiro">Dinheiro</option>
     </select>
   </div>
 </div>
 
 <div class="barra-total">
-  <div class="total-texto">Total do Pedido: <span class="total-valor" id="displayTotal">R$ 0,00</span></div>
+  <div>Total do Pedido: <span class="total-valor" id="displayTotal">R$ 0,00</span></div>
   <button type="button" class="btn-enviar" onclick="enviarWhatsApp()">🚀 Finalizar no WhatsApp</button>
 </div>
 
 <script>
-  // Função que ARRUMA o cálculo do preço
   function calcularTotal() {
     let total = 0;
-    // Seleciona todos os quadrados de produto
-    const produtos = document.querySelectorAll('.produto-card');
-    
-    produtos.forEach(card => {
+    document.querySelectorAll('.produto-card').forEach(card => {
       const checkbox = card.querySelector('.selecionar-produto');
       const qtdInput = card.querySelector('.qtd-input');
-      
-      // Se a caixa estiver marcada, soma o valor
       if (checkbox.checked) {
-        // Pega o número puro do atributo data-preco (ex: 40)
         const preco = parseFloat(checkbox.getAttribute('data-preco'));
         const qtd = parseInt(qtdInput.value);
-        
-        // Garante que a quantidade seja pelo menos 1
-        if (qtd < 1 || isNaN(qtd)) { qtdInput.value = 1; qtd = 1; }
-        
         total += preco * qtd;
-        // Destaca o card selecionado mudando a borda para amarelo vibrante
         card.style.borderColor = '#ffea00';
       } else {
-        // Reseta a borda se desmarcar
         card.style.borderColor = '#ffbf00';
       }
     });
-    
-    // Atualiza o valor na tela formatado como moeda (R$ X,XX)
-    document.getElementById('displayTotal').innerText = R$ ${total.toFixed(2).replace('.', ',')};
+    document.getElementById('displayTotal').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
   }
 
-  // Função que ARRUMA o envio para o WhatsApp
   function enviarWhatsApp() {
-    const telefone = "5561999152151"; // Número do seu pai
-    let itensPedido = "";
-    // Pega o valor total exato que está na tela
-    let totalFinal = document.getElementById('displayTotal').innerText;
-    
-    const produtos = document.querySelectorAll('.produto-card');
-    let temItem = false;
-    
-    // Monta a lista de itens marcados para a mensagem
-    produtos.forEach(card => {
+    const telefone = "5561999152151"; 
+    let itens = "";
+    document.querySelectorAll('.produto-card').forEach(card => {
       const checkbox = card.querySelector('.selecionar-produto');
-      const qtdInput = card.querySelector('.qtd-input');
-      
       if (checkbox.checked) {
-        temItem = true;
-        const nome = checkbox.getAttribute('data-nome');
-        const qtd = qtdInput.value;
-        itensPedido += ✅ ${qtd}x ${nome}%0A; // %0A é o código para pular linha
+        itens += `✅ ${card.querySelector('.qtd-input').value}x ${checkbox.getAttribute('data-nome')}%0A`;
       }
     });
 
-    // Pega os dados do cliente
-    const nomeCliente = document.getElementById('nome').value.trim();
+    const nome = document.getElementById('nome').value.trim();
     const endereco = document.getElementById('endereco').value.trim();
     const pagamento = document.getElementById('pagamento').value;
+    const total = document.getElementById('displayTotal').innerText;
 
-    // Verificação de segurança antes de enviar
-    if(!temItem) {
-      alert("Por favor, selecione pelo menos um produto!");
-      return;
-    }
-    if(!nomeCliente || !endereco) {
-      alert("Por favor, preencha seu nome e endereço de entrega!");
-      return;
-    }
+    if(!itens || !nome || !endereco) return alert("Por favor, escolha um produto e preencha seu nome e endereço!");
 
-    // Monta a mensagem final organizando os espaços (%0A)
-    const mensagem = *NOVO PEDIDO - TREM DE MINAS*%0A +
-                     ----------------------------------%0A +
-                     *ITENS:*%0A +
-                     ${itensPedido} +
-                     ----------------------------------%0A +
-                     *👉 TOTAL: ${totalFinal}*%0A +
-                     ----------------------------------%0A +
-                     *DADOS DE ENTREGA:*%0A +
-                     *Nome:* ${nomeCliente}%0A +
-                     *Endereço:* ${endereco}%0A +
-                     *Pagamento:* ${pagamento}%0A +
-                     ----------------------------------%0A +
-                     _Enviado pelo site_;
-
-    // Abre o WhatsApp direto com a mensagem pronta
-    window.open(https://wa.me/${telefone}?text=${mensagem}, '_blank');
+    const msg = `*NOVO PEDIDO - TREM DE MINAS*%0A%0A${itens}----------------------------------%0A*👉 TOTAL: ${total}*%0A----------------------------------%0A%0A*Cliente:* ${nome}%0A*Endereço:* ${endereco}%0A*Pagamento:* ${pagamento}`;
+    
+    window.open(`https://wa.me/${telefone}?text=${msg}`, '_blank');
   }
-
-  // Executa o cálculo uma vez ao carregar para garantir que comece zerado
-  calcularTotal();
 </script>
-
 </body>
 </html>
