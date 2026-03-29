@@ -3,34 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Trem de Minas - Delivery</title>
+  <title>Trem de Minas - Delivery Gourmet</title>
   <style>
+    /* DEFINIÇÃO DAS CORES DO APP */
     :root {
       --vinho: #58181a;
-      --creme: #fdf5e6;
-      --dourado: #bca06f;
+      --creme: #fdf5e6; /* Creme suave */
       --verde-zap: #25d366;
+      --cinza-claro: #f4f4f4;
+      
+      /* CORES DO XADREZ PASTEL TRANSPARENTE */
+      --xadrez-base: #f9f6ef; /* Creme muito claro */
+      --xadrez-linha: rgba(188, 114, 116, 0.15); /* Vermelho Velho Pastel com 15% de opacidade */
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
 
     body {
-      background-color: #e2cbb2;
+      /* FUNDO XADREZ PASTEL SUPER TRANSPARENTE */
+      background-color: var(--xadrez-base);
       background-image: 
-        linear-gradient(45deg, #8b0000 25%, transparent 25%), 
-        linear-gradient(-45deg, #8b0000 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, #8b0000 75%),
-        linear-gradient(-45deg, transparent 75%, #8b0000 75%);
-      background-size: 30px 30px;
+        linear-gradient(45deg, var(--xadrez-linha) 25%, transparent 25%), 
+        linear-gradient(-45deg, var(--xadrez-linha) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--xadrez-linha) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--xadrez-linha) 75%);
+      background-size: 30px 30px; /* Tamanho discreto do xadrez */
       background-attachment: fixed;
-      padding-bottom: 80px;
+      padding-bottom: 90px; /* Espaço maior para a barra fixa inferior */
+      color: #333;
     }
 
-    /* HEADER ESTILO APP */
+    /* HEADER ESTILO APP - VINHO */
     header {
       background: var(--vinho);
       color: white;
-      padding: 20px;
+      padding: 18px;
       text-align: center;
       position: sticky;
       top: 0;
@@ -38,120 +45,154 @@
       box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
 
-    header h1 { font-size: 1.4rem; letter-spacing: 1px; }
+    header h1 { font-size: 1.3rem; letter-spacing: 1px; font-weight: 700; }
 
     /* CATEGORIAS (SCROLL HORIZONTAL) */
     .categorias {
       background: white;
       display: flex;
       overflow-x: auto;
-      padding: 10px;
-      gap: 10px;
+      padding: 12px 15px;
+      gap: 12px;
       position: sticky;
-      top: 65px;
+      top: 60px; /* Logo abaixo do header */
       z-index: 999;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
     }
 
     .cat-item {
-      padding: 8px 18px;
-      background: var(--creme);
-      border: 1px solid var(--vinho);
-      border-radius: 20px;
+      padding: 9px 20px;
+      background: var(--cinza-claro);
+      border: 1px solid #ddd;
+      border-radius: 25px;
       white-space: nowrap;
       font-size: 0.9rem;
-      font-weight: bold;
-      color: var(--vinho);
+      font-weight: 600;
+      color: #555;
       text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .cat-item:hover, .cat-item:active {
+      background: var(--creme);
+      border-color: var(--vinho);
+      color: var(--vinho);
     }
 
     .container { max-width: 600px; margin: auto; padding: 15px; }
 
+    /* TÍTULOS DE SEÇÃO - MAIS DISCRETOS */
+    h2.secao-titulo {
+      color: var(--vinho);
+      margin: 25px 0 15px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      padding-left: 5px;
+    }
+
     /* CARDS DE PRODUTO ESTILO LISTA */
     .produto-item {
-      background: rgba(253, 245, 230, 0.95);
+      background: white;
       margin-bottom: 12px;
-      border-radius: 12px;
-      padding: 15px;
+      border-radius: 15px;
+      padding: 18px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-left: 5px solid var(--vinho);
-      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border: 1px solid #f0f0f0;
     }
 
-    .info-prod h3 { color: var(--vinho); font-size: 1.1rem; margin-bottom: 4px; }
-    .info-prod .preco { color: #d35400; font-weight: bold; font-size: 1.2rem; }
+    .info-prod h3 { color: #333; font-size: 1.05rem; margin-bottom: 5px; font-weight: 600; }
+    .info-prod .preco { color: #d35400; font-weight: bold; font-size: 1.25rem; }
 
+    /* CONTROLES DE QUANTIDADE +/- */
     .add-control {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .btn-qtd {
-      width: 30px;
-      height: 30px;
+      width: 35px;
+      height: 35px;
       border-radius: 50%;
       border: 1px solid var(--vinho);
       background: white;
       color: var(--vinho);
       font-weight: bold;
+      font-size: 1.2rem;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
     }
 
-    .qtd-num { font-weight: bold; min-width: 20px; text-align: center; }
+    .btn-qtd:active { background: var(--creme); transform: scale(0.95); }
 
-    /* MODAL DE DADOS (SEÇÃO FINAL) */
+    .qtd-num { font-weight: bold; font-size: 1.1rem; min-width: 25px; text-align: center; color: var(--vinho); }
+
+    /* SEÇÃO DE CHECKOUT FINAL */
     .checkout-section {
       background: white;
-      padding: 20px;
+      padding: 25px;
       border-radius: 15px;
-      margin-top: 20px;
-      border: 1px solid #ddd;
+      margin-top: 30px;
+      border: 1px solid #f0f0f0;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
     }
+
+    .checkout-section h3 { color: var(--vinho); margin-bottom: 15px; font-size: 1.2rem; }
 
     input, textarea, select {
       width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background: #f9f9f9;
+      padding: 14px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: #fdfdfd;
+      font-size: 1rem;
     }
 
-    /* BARRA INFERIOR (CARRINHO) */
+    textarea { resize: none; }
+
+    /* BARRA INFERIOR FIXA (CARRINHO) */
     .nav-bottom {
       position: fixed;
       bottom: 0;
       width: 100%;
       max-width: 100vw;
       background: var(--vinho);
-      padding: 15px 20px;
+      padding: 18px 25px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       color: white;
       z-index: 2000;
+      box-shadow: 0 -3px 15px rgba(0,0,0,0.2);
     }
 
-    .total-box { line-height: 1.2; }
-    .total-label { font-size: 0.8rem; opacity: 0.8; }
-    .total-valor { font-size: 1.5rem; font-weight: bold; color: #ffbf00; }
+    .total-box { line-height: 1.3; }
+    .total-label { font-size: 0.85rem; opacity: 0.8; font-weight: 300; }
+    .total-valor { font-size: 1.7rem; font-weight: 800; color: #ffbf00; font-family: 'Segoe UI', serif; }
 
     .btn-finalizar {
       background: var(--verde-zap);
       color: white;
       border: none;
-      padding: 12px 25px;
-      border-radius: 25px;
-      font-weight: bold;
-      font-size: 1rem;
+      padding: 15px 30px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 1.1rem;
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: 0.3s;
     }
 
-    /* ESCONDER SCROLLBAR */
+    .btn-finalizar:hover { background: #128c7e; transform: scale(1.03); }
+
+    /* ESCONDER SCROLLBAR HORIZONTAL */
     .categorias::-webkit-scrollbar { display: none; }
   </style>
 </head>
@@ -170,7 +211,7 @@
 
 <div class="container">
   
-  <h2 id="queijos" style="color:white; margin: 15px 0; text-shadow: 1px 1px 2px black;">Queijos</h2>
+  <h2 id="queijos" class="secao-titulo">Queijos Artesanais</h2>
   <div class="produto-item">
     <div class="info-prod">
       <h3>Queijo Artesanal</h3>
@@ -183,7 +224,7 @@
     </div>
   </div>
 
-  <h2 id="doces" style="color:white; margin: 25px 0 15px; text-shadow: 1px 1px 2px black;">Doces</h2>
+  <h2 id="doces" class="secao-titulo">Doces de Família</h2>
   <div class="produto-item">
     <div class="info-prod">
       <h3>Doce de Leite (Corte)</h3>
@@ -208,7 +249,7 @@
     </div>
   </div>
 
-  <h2 id="geleias" style="color:white; margin: 25px 0 15px; text-shadow: 1px 1px 2px black;">Geleias</h2>
+  <h2 id="geleias" class="secao-titulo">Geleias Caseiras</h2>
   <div class="produto-item">
     <div class="info-prod">
       <h3>Geleia de Mocotó</h3>
@@ -234,12 +275,12 @@
   </div>
 
   <div id="finalizar" class="checkout-section">
-    <h3 style="color:var(--vinho); margin-bottom:10px">Finalizar Pedido</h3>
-    <input type="text" id="nome" placeholder="Seu Nome">
-    <textarea id="endereco" rows="3" placeholder="Endereço Completo"></textarea>
+    <h3>Dados para Entrega</h3>
+    <input type="text" id="nome" placeholder="Nome Completo" required>
+    <textarea id="endereco" rows="3" placeholder="Rua, número, bairro, referência..." required></textarea>
     <select id="pagamento">
-      <option value="Pix">Pix</option>
-      <option value="Cartão">Cartão</option>
+      <option value="Pix">Pix (Recomendado)</option>
+      <option value="Cartão">Cartão (Levamos maquininha)</option>
       <option value="Dinheiro">Dinheiro</option>
     </select>
   </div>
@@ -250,11 +291,11 @@
     <div class="total-label">Total do pedido</div>
     <div class="total-valor" id="v-total">R$ 0,00</div>
   </div>
-  <button class="btn-finalizar" onclick="enviarPedido()">Enviar Pedido</button>
+  <button class="btn-finalizar" onclick="enviarPedido()">Enviar via WhatsApp</button>
 </div>
 
 <script>
-  // Banco de dados simples dos produtos
+  // Banco de dados dos produtos
   const precos = {
     'queijo': { nome: 'Queijo Artesanal', preco: 40 },
     'doce-corte': { nome: 'Doce de Leite Corte', preco: 25 },
@@ -263,11 +304,13 @@
     'geleia-amen': { nome: 'Geleia de Amendoim', preco: 25 }
   };
 
+  // Estado inicial do carrinho
   let carrinho = {
     'queijo': 0, 'doce-corte': 0, 'doce-coco': 0, 'geleia-moco': 0, 'geleia-amen': 0
   };
 
   function mudarQtd(id, delta) {
+    // A quantidade não pode ser menor que zero
     carrinho[id] = Math.max(0, carrinho[id] + delta);
     document.getElementById(`qtd-${id}`).innerText = carrinho[id];
     atualizarTotal();
@@ -278,30 +321,36 @@
     for (let id in carrinho) {
       total += carrinho[id] * precos[id].preco;
     }
+    // Formata o total como moeda (R$ X,XX)
     document.getElementById('v-total').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
   }
 
   function enviarPedido() {
-    const telefone = "5561999152151";
+    const telefone = "5561999152151"; // Número do seu pai
     let textoProd = "";
     let total = document.getElementById('v-total').innerText;
 
+    // Monta a lista de itens para a mensagem
     for (let id in carrinho) {
       if (carrinho[id] > 0) {
         textoProd += `✅ ${carrinho[id]}x ${precos[id].nome}%0A`;
       }
     }
 
-    const nome = document.getElementById('nome').value;
-    const endereco = document.getElementById('endereco').value;
+    const nome = document.getElementById('nome').value.trim();
+    const endereco = document.getElementById('endereco').value.trim();
     const pag = document.getElementById('pagamento').value;
 
-    if (!textoProd || !nome || !endereco) return alert("Escolha os produtos e preencha seus dados!");
+    // Validação de segurança
+    if (!textoProd || !nome || !endereco) return alert("Por favor, selecione os produtos e preencha seus dados!");
 
-    const msg = `*NOVO PEDIDO - TREM DE MINAS*%0A%0A${textoProd}%0A*TOTAL: ${total}*%0A%0A*Cliente:* ${nome}%0A*Endereço:* ${endereco}%0A*Pagamento:* ${pag}`;
+    // Monta a mensagem final pulando linhas (%0A)
+    const msg = `*NOVO PEDIDO - TREM DE MINAS*%0A%0A${textoProd}%0A*--------------------------------*%0A*👉 TOTAL: ${total}*%0A*--------------------------------*%0A%0A*Cliente:* ${nome}%0A*Endereço:* ${endereco}%0A*Pagamento:* ${pag}%0A%0A_Enviado pelo App Web_`;
+    
+    // Abre o WhatsApp com a mensagem pronta
     window.open(`https://wa.me/${telefone}?text=${msg}`, '_blank');
   }
 </script>
 
 </body>
-</html>
+</html>     
